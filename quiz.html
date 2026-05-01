@@ -3,101 +3,271 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Quiz JLPT N5</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Kuis Master JLPT N5</title>
+    
+    <!-- CSS Section -->
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
-        body { font-family: 'Quicksand', sans-serif; background: #f0f2f5; }
-        .answer-card { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-        .answer-card:active { transform: scale(0.98); }
-        .shake { animation: shake 0.5s; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --success: #22c55e;
+            --error: #ef4444;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Container & Layout */
+        .quiz-card {
+            background: var(--card-bg);
+            width: 100%;
+            max-width: 550px;
+            border-radius: 32px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-container {
+            height: 6px;
+            background: #e2e8f0;
+            width: 100%;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        /* Header Stats */
+        .header-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .badge {
+            background: #eef2ff;
+            color: var(--primary);
+            padding: 6px 16px;
+            border-radius: 99px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .score-text {
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Question Elements */
+        .situation-box {
+            background: #fff7ed;
+            color: #9a3412;
+            padding: 14px;
+            border-radius: 16px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            border-left: 4px solid #fb923c;
+            font-style: italic;
+        }
+
+        .question-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            line-height: 1.4;
+            margin-bottom: 30px;
+            min-height: 80px;
+        }
+
+        /* Options Grid */
+        .options-grid {
+            display: grid;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: #fff;
+            border: 2px solid #f1f5f9;
+            padding: 18px;
+            border-radius: 20px;
+            text-align: left;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            background: #f5f3ff;
+        }
+
+        .option-btn.correct {
+            border-color: var(--success);
+            background-color: #f0fdf4;
+            color: #166534;
+        }
+
+        .option-btn.wrong {
+            border-color: var(--error);
+            background-color: #fef2f2;
+            color: #991b1b;
+        }
+
+        /* Result Screen */
+        .result-screen {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .result-screen.active {
+            display: block;
+        }
+
+        .result-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .final-score-container {
+            background: #f8fafc;
+            padding: 30px;
+            border-radius: 24px;
+            margin: 24px 0;
+        }
+
+        .final-score {
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--primary);
+            display: block;
+        }
+
+        .restart-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 18px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .restart-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        /* Animations */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            75% { transform: translateX(5px); }
+            25% { transform: translateX(-6px); }
+            75% { transform: translateX(6px); }
         }
-        .correct-pulse { animation: pulse 0.5s; }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+
+        .animate-shake {
+            animation: shake 0.4s ease-in-out;
         }
+
+        .hidden { display: none; }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
+<body>
 
-    <div id="app" class="max-w-xl w-full bg-white rounded-[2rem] shadow-2xl overflow-hidden relative">
-        <!-- Progress Bar -->
-        <div class="h-1.5 bg-gray-100">
-            <div id="progress" class="h-full bg-blue-500 transition-all duration-300" style="width: 0%"></div>
+    <div class="quiz-card" id="main-card">
+        <div class="progress-container">
+            <div class="progress-bar" id="progress-bar"></div>
         </div>
 
-        <div class="p-8">
-            <!-- Header Stats -->
-            <div class="flex justify-between items-center mb-8">
-                <div class="bg-blue-50 text-blue-600 px-4 py-1 rounded-full text-sm font-bold" id="q-count">
-                    Soal 1 / 20
+        <div class="content">
+            <!-- Game View -->
+            <div id="quiz-view">
+                <div class="header-stats">
+                    <span class="badge" id="q-counter">Soal 1 / 20</span>
+                    <span class="score-text" id="score-display">Poin: 0</span>
                 </div>
-                <div class="flex items-center gap-2 font-bold text-gray-700">
-                    <span id="score-display">Poin: 0</span>
-                </div>
-            </div>
 
-            <!-- Quiz Content -->
-            <div id="quiz-content">
-                <div id="situation-box" class="mb-4 text-sm bg-orange-50 text-orange-700 p-3 rounded-xl border border-orange-100 italic">
+                <div class="situation-box" id="situation-text">
                     Situasi: Memegang benda di tangan sendiri.
                 </div>
-                <h2 id="question-text" class="text-2xl font-bold text-gray-800 mb-8 min-h-[4rem]">
+
+                <h2 class="question-text" id="question-text">
                     「_____ は わたしの 本です。」
                 </h2>
 
-                <div id="options-grid" class="grid gap-3">
-                    <!-- Buttons injected here -->
+                <div class="options-grid" id="options-grid">
+                    <!-- Tombol akan diisi oleh JavaScript -->
                 </div>
             </div>
 
-            <!-- Result Screen (Hidden by default) -->
-            <div id="result-screen" class="hidden text-center py-10">
-                <div id="result-icon" class="text-6xl mb-4">🏆</div>
-                <h2 class="text-3xl font-bold text-gray-800 mb-2" id="result-title">Luar Biasa!</h2>
-                <p class="text-gray-500 mb-6" id="result-desc">Kamu memiliki pemahaman dasar yang kuat.</p>
-                <div class="bg-gray-50 rounded-3xl p-6 mb-8">
-                    <span class="block text-gray-400 text-sm uppercase font-bold tracking-widest">Skor Akhir</span>
-                    <span class="text-6xl font-black text-blue-600" id="final-score">0</span>
-                    <span class="text-gray-400 font-bold block mt-1">/ 200</span>
+            <!-- Result View -->
+            <div id="result-view" class="result-screen">
+                <div class="result-icon" id="result-icon">🏆</div>
+                <h2 id="result-title" style="font-size: 1.8rem; font-weight: 800; margin-bottom: 8px;">Luar Biasa!</h2>
+                <p id="result-desc" style="color: var(--text-muted); font-weight: 500;">Kamu menguasai materi N5 dengan baik.</p>
+                
+                <div class="final-score-container">
+                    <span style="font-size: 0.8rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;">Skor Kamu</span>
+                    <span class="final-score" id="final-score-val">0</span>
+                    <span style="font-weight: 700; color: #94a3b8;">DARI 200 POIN</span>
                 </div>
-                <button onclick="location.reload()" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-bold shadow-lg shadow-blue-200 transition-all">
-                    Ulangi Kuis
-                </button>
+
+                <button class="restart-btn" onclick="resetQuiz()">Main Lagi</button>
             </div>
         </div>
     </div>
 
+    <!-- JavaScript Section -->
     <script>
         const quizData = [
-            // KOSOADO
             { s: "Situasi: Memegang kamus di tangan sendiri.", q: "「_____ は わたしの じしょです。」", o: ["これ", "それ", "あれ", "この"], a: 0 },
             { s: "Situasi: Menunjuk mobil yang parkir jauh di sana.", q: "「_____ くるまは だれのですか。」", o: ["その", "あの", "これ", "あれ"], a: 1 },
             { s: "Situasi: Bertanya tentang benda yang dipegang teman.", q: "「_____ は なんですか。」", o: ["これ", "それ", "あれ", "この"], a: 1 },
             { s: "Situasi: Menunjuk bangunan jauh di seberang sungai.", q: "「_____ は びょういんです。」", o: ["それ", "これ", "あれ", "あの"], a: 2 },
             { s: "Situasi: Menunjuk buku yang ada di atas meja teman.", q: "「_____ ほんは わたしのです。」", o: ["この", "その", "あの", "どの"], a: 1 },
-            
-            // PARTIKEL
-            { s: "Partikel: Menunjukkan subjek.", q: "わたし _____ サトリアです。", o: ["は", "に", "を", "が"], a: 0 },
-            { s: "Partikel: Menunjukkan waktu.", q: "まいあさ 6じ _____ おきます。", o: ["を", "に", "で", "も"], a: 1 },
+            { s: "Partikel: Menunjukkan subjek.", q: "わたし _____ サトリアです。", o: ["は", "に", "를", "が"], a: 0 },
+            { s: "Partikel: Menunjukkan waktu spesifik.", q: "まいあさ 6じ _____ おきます。", o: ["を", "に", "で", "も"], a: 1 },
             { s: "Partikel: Menunjukkan tempat aktivitas.", q: "がっこう _____ べんきょうします。", o: ["に", "で", "を", "へ"], a: 1 },
             { s: "Partikel: Menunjukkan kepemilikan.", q: "それは せんせい _____ かばんです。", o: ["は", "の", "を", "に"], a: 1 },
-            { s: "Partikel: Menunjukkan objek aksi.", q: "パン _____ たべました。", o: ["は", "に", "を", "が"], a: 2 },
-
-            // KOSAKATA & LAWAN KATA
+            { s: "Partikel: Menunjukkan objek langsung.", q: "パン _____ たべました。", o: ["は", "に", "を", "が"], a: 2 },
             { s: "Kosakata: Apa bahasa Jepang dari 'Sekolah'?", q: "学校 adalah...", o: ["Ginkou", "Gakkou", "Kissa-ten", "Byouin"], a: 1 },
             { s: "Lawan Kata: Lawan kata dari 'たかい' (Mahal) adalah...", o: ["あつい", "やすい", "ちかい", "ひくい"], a: 1 },
             { s: "Kosakata: Apa arti dari 'あさごはん'?", q: "「あさごはん を たべます。」", o: ["Makan siang", "Makan malam", "Sarapan", "Camilan"], a: 2 },
             { s: "Waktu: Jam 4:30 dalam bahasa Jepang adalah...", o: ["Yoji-han", "Shiji-han", "Yoji-juupun", "Shiji-juupun"], a: 0 },
             { s: "Hari: 'Getsuyoubi' adalah hari...", o: ["Selasa", "Minggu", "Senin", "Rabu"], a: 2 },
-
-            // KATA KERJA
             { s: "Kata Kerja: Bentuk -masu dari 'Yomu' (Membaca).", q: "わたしは ほんを _____。", o: ["よみます", "よんで", "よむます", "よみました"], a: 0 },
             { s: "Kata Kerja: Bentuk -te dari 'Nomu' (Minum).", q: "「おみずを _____ ください。」", o: ["のみて", "のんで", "のって", "のみで"], a: 1 },
             { s: "Kata Kerja: Bentuk -masu dari 'Suru' (Melakukan).", q: "べんきょうを _____。", o: ["しります", "します", "しりて", "しますした"], a: 1 },
@@ -107,80 +277,107 @@
 
         let currentIdx = 0;
         let score = 0;
+        let isProcessing = false;
 
-        function loadQuestion() {
-            if (currentIdx >= quizData.length) return showResult();
+        // Elements
+        const quizView = document.getElementById('quiz-view');
+        const resultView = document.getElementById('result-view');
+        const qCounter = document.getElementById('q-counter');
+        const scoreDisplay = document.getElementById('score-display');
+        const situationText = document.getElementById('situation-text');
+        const questionText = document.getElementById('question-text');
+        const optionsGrid = document.getElementById('options-grid');
+        const progressBar = document.getElementById('progress-bar');
+        const mainCard = document.getElementById('main-card');
+
+        function initQuiz() {
+            if (currentIdx >= quizData.length) {
+                showResults();
+                return;
+            }
+
+            const currentData = quizData[currentIdx];
             
-            const data = quizData[currentIdx];
-            document.getElementById('q-count').innerText = `Soal ${currentIdx + 1} / ${quizData.length}`;
-            document.getElementById('situation-box').innerText = data.s;
-            document.getElementById('question-text').innerText = data.q;
-            document.getElementById('progress').style.width = `${(currentIdx / quizData.length) * 100}%`;
-            
-            const grid = document.getElementById('options-grid');
-            grid.innerHTML = '';
-            
-            data.o.forEach((opt, i) => {
-                const btn = document.createElement('button');
-                btn.className = "answer-card text-left p-5 rounded-2xl border-2 border-gray-100 hover:border-blue-500 hover:bg-blue-50 font-semibold text-gray-700 bg-white shadow-sm";
-                btn.innerText = `${i + 1}. ${opt}`;
-                btn.onclick = () => checkAnswer(i, btn);
-                grid.appendChild(btn);
+            // Update UI
+            qCounter.innerText = `Soal ${currentIdx + 1} / ${quizData.length}`;
+            scoreDisplay.innerText = `Poin: ${score}`;
+            situationText.innerText = currentData.s;
+            questionText.innerText = currentData.q;
+            progressBar.style.width = `${(currentIdx / quizData.length) * 100}%`;
+
+            // Render Options
+            optionsGrid.innerHTML = '';
+            currentData.o.forEach((opt, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-btn';
+                button.innerText = `${index + 1}. ${opt}`;
+                button.onclick = () => handleAnswer(index, button);
+                optionsGrid.appendChild(button);
             });
+            
+            isProcessing = false;
         }
 
-        function checkAnswer(idx, btn) {
-            const correct = quizData[currentIdx].a;
-            const container = document.getElementById('app');
-            
-            if (idx === correct) {
+        function handleAnswer(selectedIndex, button) {
+            if (isProcessing) return;
+            isProcessing = true;
+
+            const correctIndex = quizData[currentIdx].a;
+
+            if (selectedIndex === correctIndex) {
                 score += 10;
-                btn.classList.replace('border-gray-100', 'border-green-500');
-                btn.classList.add('bg-green-50', 'text-green-700', 'correct-pulse');
-                document.getElementById('score-display').innerText = `Poin: ${score}`;
+                button.classList.add('correct');
             } else {
-                btn.classList.replace('border-gray-100', 'border-red-500');
-                btn.classList.add('bg-red-50', 'text-red-700', 'shake');
-                container.classList.add('shake');
-                setTimeout(() => container.classList.remove('shake'), 500);
+                button.classList.add('wrong');
+                mainCard.classList.add('animate-shake');
+                // Beri tanda pada jawaban yang benar
+                Array.from(optionsGrid.children)[correctIndex].classList.add('correct');
+                setTimeout(() => mainCard.classList.remove('animate-shake'), 400);
             }
 
             setTimeout(() => {
                 currentIdx++;
-                loadQuestion();
-            }, 800);
+                initQuiz();
+            }, 1000);
         }
 
-        function showResult() {
-            document.getElementById('quiz-content').classList.add('hidden');
-            document.getElementById('q-count').classList.add('hidden');
-            document.getElementById('progress').style.width = '100%';
-            
-            const resultScreen = document.getElementById('result-screen');
-            const finalScore = document.getElementById('final-score');
-            const resTitle = document.getElementById('result-title');
-            const resDesc = document.getElementById('result-desc');
-            const resIcon = document.getElementById('result-icon');
-            
-            resultScreen.classList.remove('hidden');
-            finalScore.innerText = score;
+        function showResults() {
+            quizView.classList.add('hidden');
+            resultView.classList.add('active');
+            progressBar.style.width = '100%';
+
+            const finalVal = document.getElementById('final-score-val');
+            const title = document.getElementById('result-title');
+            const desc = document.getElementById('result-desc');
+            const icon = document.getElementById('result-icon');
+
+            finalVal.innerText = score;
 
             if (score >= 180) {
-                resTitle.innerText = "Luar Biasa! (満点に近い)";
-                resDesc.innerText = "Kamu sudah sangat siap untuk lombs kana .";
-                resIcon.innerText = "👑";
+                icon.innerText = '👑';
+                title.innerText = 'Luar Biasa!';
+                desc.innerText = 'Kamu sudah sangat siap untuk LOMBA KANA!';
             } else if (score >= 120) {
-                resTitle.innerText = "Bagus Sekali! (合格)";
-                resDesc.innerText = "Kamu sudah lulus standar nilai.";
-                resIcon.innerText = "⭐";
+                icon.innerText = '⭐';
+                title.innerText = 'Lulus!';
+                desc.innerText = 'Pemahamanmu sudah cukup baik.';
             } else {
-                resTitle.innerText = "Terus Berjuang! (頑張って)";
-                resDesc.innerText = "Perbanyak latihan lagi di bagian partikel dan kata kerja.";
-                resIcon.innerText = "📚";
+                icon.innerText = '📚';
+                title.innerText = 'Terus Belajar!';
+                desc.innerText = 'Coba ulangi lagi untuk memperkuat dasar-dasarmu.';
             }
         }
 
-        window.onload = loadQuestion;
+        function resetQuiz() {
+            currentIdx = 0;
+            score = 0;
+            quizView.classList.remove('hidden');
+            resultView.classList.remove('active');
+            initQuiz();
+        }
+
+        // Jalankan kuis pertama kali
+        window.onload = initQuiz;
     </script>
 </body>
 </html>
