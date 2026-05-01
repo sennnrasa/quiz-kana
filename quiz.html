@@ -1,383 +1,117 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuis Master JLPT N5</title>
-    
-    <!-- CSS Section -->
+    <title>JLPT N5 Mastery Quiz</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-
-        :root {
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --success: #22c55e;
-            --error: #ef4444;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg);
-            color: var(--text-main);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        /* Container & Layout */
-        .quiz-card {
-            background: var(--card-bg);
-            width: 100%;
-            max-width: 550px;
-            border-radius: 32px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-container {
-            height: 6px;
-            background: #e2e8f0;
-            width: 100%;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: var(--primary);
-            width: 0%;
-            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .content {
-            padding: 40px;
-        }
-
-        /* Header Stats */
-        .header-stats {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
-        }
-
-        .badge {
-            background: #eef2ff;
-            color: var(--primary);
-            padding: 6px 16px;
-            border-radius: 99px;
-            font-size: 0.85rem;
-            font-weight: 700;
-        }
-
-        .score-text {
-            font-weight: 700;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Question Elements */
-        .situation-box {
-            background: #fff7ed;
-            color: #9a3412;
-            padding: 14px;
-            border-radius: 16px;
-            font-size: 0.85rem;
-            margin-bottom: 20px;
-            border-left: 4px solid #fb923c;
-            font-style: italic;
-        }
-
-        .question-text {
-            font-size: 1.5rem;
-            font-weight: 800;
-            line-height: 1.4;
-            margin-bottom: 30px;
-            min-height: 80px;
-        }
-
-        /* Options Grid */
-        .options-grid {
-            display: grid;
-            gap: 12px;
-        }
-
-        .option-btn {
-            background: #fff;
-            border: 2px solid #f1f5f9;
-            padding: 18px;
-            border-radius: 20px;
-            text-align: left;
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--text-main);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .option-btn:hover {
-            border-color: var(--primary);
-            background: #f5f3ff;
-        }
-
-        .option-btn.correct {
-            border-color: var(--success);
-            background-color: #f0fdf4;
-            color: #166534;
-        }
-
-        .option-btn.wrong {
-            border-color: var(--error);
-            background-color: #fef2f2;
-            color: #991b1b;
-        }
-
-        /* Result Screen */
-        .result-screen {
-            display: none;
-            text-align: center;
-            padding: 40px 20px;
-        }
-
-        .result-screen.active {
-            display: block;
-        }
-
-        .result-icon {
-            font-size: 4rem;
-            margin-bottom: 20px;
-        }
-
-        .final-score-container {
-            background: #f8fafc;
-            padding: 30px;
-            border-radius: 24px;
-            margin: 24px 0;
-        }
-
-        .final-score {
-            font-size: 4rem;
-            font-weight: 900;
-            color: var(--primary);
-            display: block;
-        }
-
-        .restart-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 16px 32px;
-            border-radius: 18px;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            width: 100%;
-            transition: background 0.2s;
-        }
-
-        .restart-btn:hover {
-            background: var(--primary-hover);
-        }
-
-        /* Animations */
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-6px); }
-            75% { transform: translateX(6px); }
-        }
-
-        .animate-shake {
-            animation: shake 0.4s ease-in-out;
-        }
-
+        :root { --primary: #4f46e5; --success: #22c55e; --error: #ef4444; --bg: #f8fafc; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+        .quiz-card { background: white; width: 100%; max-width: 500px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; }
+        .progress-bar { height: 6px; background: #e2e8f0; width: 100%; }
+        .progress-fill { height: 100%; background: var(--primary); width: 0%; transition: 0.4s; }
+        .content { padding: 30px; }
+        .badge { background: #eef2ff; color: var(--primary); padding: 5px 12px; border-radius: 99px; font-size: 0.8rem; font-weight: 700; }
+        .situation { background: #fff7ed; color: #9a3412; padding: 12px; border-radius: 12px; font-size: 0.85rem; margin: 15px 0; border-left: 4px solid #fb923c; }
+        .question { font-size: 1.3rem; font-weight: 800; margin-bottom: 20px; color: #1e293b; }
+        .options { display: grid; gap: 10px; }
+        .btn { background: #fff; border: 2px solid #f1f5f9; padding: 15px; border-radius: 15px; text-align: left; font-weight: 600; cursor: pointer; transition: 0.2s; font-family: inherit; }
+        .btn:hover { border-color: var(--primary); background: #f5f3ff; }
+        .btn.correct { border-color: var(--success); background: #f0fdf4; color: #166534; }
+        .btn.wrong { border-color: var(--error); background: #fef2f2; color: #991b1b; }
+        .result-view { display: none; text-align: center; }
+        .final-score { font-size: 4rem; font-weight: 900; color: var(--primary); }
+        .shake { animation: shake 0.4s; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="quiz-card" id="main-card">
-        <div class="progress-container">
-            <div class="progress-bar" id="progress-bar"></div>
+<div class="quiz-card" id="card">
+    <div class="progress-bar"><div class="progress-fill" id="fill"></div></div>
+    <div class="content">
+        <div id="game-view">
+            <div style="display:flex; justify-content:space-between; align-items:center">
+                <span class="badge" id="counter">1 / 20</span>
+                <span id="score" style="font-weight:700; color:#64748b">Poin: 0</span>
+            </div>
+            <div class="situation" id="sit">Situasi...</div>
+            <h2 class="question" id="ques">Question?</h2>
+            <div class="options" id="opts"></div>
         </div>
 
-        <div class="content">
-            <!-- Game View -->
-            <div id="quiz-view">
-                <div class="header-stats">
-                    <span class="badge" id="q-counter">Soal 1 / 20</span>
-                    <span class="score-text" id="score-display">Poin: 0</span>
-                </div>
-
-                <div class="situation-box" id="situation-text">
-                    Situasi: Memegang benda di tangan sendiri.
-                </div>
-
-                <h2 class="question-text" id="question-text">
-                    「_____ は わたしの 本です。」
-                </h2>
-
-                <div class="options-grid" id="options-grid">
-                    <!-- Tombol akan diisi oleh JavaScript -->
-                </div>
-            </div>
-
-            <!-- Result View -->
-            <div id="result-view" class="result-screen">
-                <div class="result-icon" id="result-icon">🏆</div>
-                <h2 id="result-title" style="font-size: 1.8rem; font-weight: 800; margin-bottom: 8px;">Luar Biasa!</h2>
-                <p id="result-desc" style="color: var(--text-muted); font-weight: 500;">Kamu menguasai materi N5 dengan baik.</p>
-                
-                <div class="final-score-container">
-                    <span style="font-size: 0.8rem; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;">Skor Kamu</span>
-                    <span class="final-score" id="final-score-val">0</span>
-                    <span style="font-weight: 700; color: #94a3b8;">DARI 200 POIN</span>
-                </div>
-
-                <button class="restart-btn" onclick="resetQuiz()">Main Lagi</button>
-            </div>
+        <div id="result-view" class="result-view">
+            <div style="font-size:3rem">🏆</div>
+            <h2 id="res-title">Selesai!</h2>
+            <div class="final-score" id="f-score">0</div>
+            <p style="margin-bottom:20px; color:#64748b">DARI 200 POIN</p>
+            <button class="btn" style="width:100%; text-align:center; background:var(--primary); color:white" onclick="location.reload()">Main Lagi</button>
         </div>
     </div>
+</div>
 
-    <!-- JavaScript Section -->
-    <script>
-        const quizData = [
-            { s: "Situasi: Memegang kamus di tangan sendiri.", q: "「_____ は わたしの じしょです。」", o: ["これ", "それ", "あれ", "この"], a: 0 },
-            { s: "Situasi: Menunjuk mobil yang parkir jauh di sana.", q: "「_____ くるまは だれのですか。」", o: ["その", "あの", "これ", "あれ"], a: 1 },
-            { s: "Situasi: Bertanya tentang benda yang dipegang teman.", q: "「_____ は なんですか。」", o: ["これ", "それ", "あれ", "この"], a: 1 },
-            { s: "Situasi: Menunjuk bangunan jauh di seberang sungai.", q: "「_____ は びょういんです。」", o: ["それ", "これ", "あれ", "あの"], a: 2 },
-            { s: "Situasi: Menunjuk buku yang ada di atas meja teman.", q: "「_____ ほんは わたしのです。」", o: ["この", "その", "あの", "どの"], a: 1 },
-            { s: "Partikel: Menunjukkan subjek.", q: "わたし _____ サトリアです。", o: ["は", "に", "를", "が"], a: 0 },
-            { s: "Partikel: Menunjukkan waktu spesifik.", q: "まいあさ 6じ _____ おきます。", o: ["を", "に", "で", "も"], a: 1 },
-            { s: "Partikel: Menunjukkan tempat aktivitas.", q: "がっこう _____ べんきょうします。", o: ["に", "で", "を", "へ"], a: 1 },
-            { s: "Partikel: Menunjukkan kepemilikan.", q: "それは せんせい _____ かばんです。", o: ["は", "の", "を", "に"], a: 1 },
-            { s: "Partikel: Menunjukkan objek langsung.", q: "パン _____ たべました。", o: ["は", "に", "を", "が"], a: 2 },
-            { s: "Kosakata: Apa bahasa Jepang dari 'Sekolah'?", q: "学校 adalah...", o: ["Ginkou", "Gakkou", "Kissa-ten", "Byouin"], a: 1 },
-            { s: "Lawan Kata: Lawan kata dari 'たかい' (Mahal) adalah...", o: ["あつい", "やすい", "ちかい", "ひくい"], a: 1 },
-            { s: "Kosakata: Apa arti dari 'あさごはん'?", q: "「あさごはん を たべます。」", o: ["Makan siang", "Makan malam", "Sarapan", "Camilan"], a: 2 },
-            { s: "Waktu: Jam 4:30 dalam bahasa Jepang adalah...", o: ["Yoji-han", "Shiji-han", "Yoji-juupun", "Shiji-juupun"], a: 0 },
-            { s: "Hari: 'Getsuyoubi' adalah hari...", o: ["Selasa", "Minggu", "Senin", "Rabu"], a: 2 },
-            { s: "Kata Kerja: Bentuk -masu dari 'Yomu' (Membaca).", q: "わたしは ほんを _____。", o: ["よみます", "よんで", "よむます", "よみました"], a: 0 },
-            { s: "Kata Kerja: Bentuk -te dari 'Nomu' (Minum).", q: "「おみずを _____ ください。」", o: ["のみて", "のんで", "のって", "のみで"], a: 1 },
-            { s: "Kata Kerja: Bentuk -masu dari 'Suru' (Melakukan).", q: "べんきょうを _____。", o: ["しります", "します", "しりて", "しますした"], a: 1 },
-            { s: "Kata Kerja: Bentuk -te dari 'Matsu' (Menunggu).", q: "「ちょっと _____ ください。」", o: ["まて", "まちて", "まって", "まちた"], a: 2 },
-            { s: "Kata Kerja: Bentuk -masu dari 'Kuru' (Datang).", q: "ともだちが _____。", o: ["きます", "きります", "こます", "くるます"], a: 0 }
-        ];
+<script>
+    const data = [
+        {s:"Memegang kamus sendiri.", q:"「___ は わたしの じしょです。」", o:["これ","それ","あれ","この"], a:0},
+        {s:"Mobil parkir jauh di sana.", q:"「___ くるまは だれのですか。」", o:["その","あの","これ","あれ"], a:1},
+        {s:"Benda yang dipegang teman.", q:"「___ は なんですか。」", o:["これ","それ","あれ","この"], a:1},
+        {s:"Gedung jauh di seberang jalan.", q:"「___ は びょういんです。」", o:["それ","これ","あれ","あの"], a:2},
+        {s:"Buku di atas meja teman.", q:"「___ ほんは わたしのです。」", o:["この","その","あの","どの"], a:1},
+        {s:"Partikel Subjek.", q:"わたし ___ サトリアです。", o:["は","に","が","を"], a:0},
+        {s:"Partikel Waktu.", q:"まいあさ 6じ ___ おきます。", o:["を","に","で","も"], a:1},
+        {s:"Tempat Aktivitas.", q:"がっこう ___ べんきょうします。", o:["に","で","を","へ"], a:1},
+        {s:"Partikel Kepemilikan.", q:"それは せんせい ___ かばんです。", o:["は","の","を","に"], a:1},
+        {s:"Objek Langsung.", q:"パン ___ たべました。", o:["は","に","を","が"], a:2},
+        {s:"Bahasa Jepang 'Sekolah'.", q:"学校 adalah...", o:["Ginkou","Gakkou","Kissaten","Byouin"], a:1},
+        {s:"Lawan kata Mahal (Takai).", q:"Lawan kata たかい adalah...", o:["あつい","安い (やすい)","ちかい","ひくい"], a:1},
+        {s:"Apa itu 'Asagohan'?", q:"「あさごはん を たべます。」", o:["Makan siang","Makan malam","Sarapan","Camilan"], a:2},
+        {s:"Jam 4:30.", q:"Jam 4:30 adalah...", o:["Yoji-han","Shiji-han","Yoji-juupun","Shiji-juupun"], a:0},
+        {s:"Getsuyoubi.", q:"'Getsuyoubi' adalah hari...", o:["Selasa","Minggu","Senin","Rabu"], a:2},
+        {s:"Bentuk -masu: Yomu.", q:"わたしは ほんを ___。", o:["よみます","よんで","よむます","よみました"], a:0},
+        {s:"Bentuk -te: Nomu.", q:"「おみずを ___ ください。」", o:["のみて","のんで","のって","のみで"], a:1},
+        {s:"Bentuk -masu: Suru.", q:"べんきょうを ___。", o:["しります","します","しりて","しますした"], a:1},
+        {s:"Bentuk -te: Matsu.", q:"「ちょっと ___ ください。」", o:["まて","まちて","まって","まちた"], a:2},
+        {s:"Bentuk -masu: Kuru.", q:"ともだちが ___。", o:["きます","きります","こます","くるます"], a:0}
+    ];
 
-        let currentIdx = 0;
-        let score = 0;
-        let isProcessing = false;
+    let idx = 0, score = 0, lock = false;
 
-        // Elements
-        const quizView = document.getElementById('quiz-view');
-        const resultView = document.getElementById('result-view');
-        const qCounter = document.getElementById('q-counter');
-        const scoreDisplay = document.getElementById('score-display');
-        const situationText = document.getElementById('situation-text');
-        const questionText = document.getElementById('question-text');
-        const optionsGrid = document.getElementById('options-grid');
-        const progressBar = document.getElementById('progress-bar');
-        const mainCard = document.getElementById('main-card');
+    function render() {
+        if(idx >= data.length) return showRes();
+        const d = data[idx];
+        document.getElementById('counter').innerText = `${idx+1} / ${data.length}`;
+        document.getElementById('sit').innerText = `Situasi: ${d.s}`;
+        document.getElementById('ques').innerText = d.q;
+        document.getElementById('fill').style.width = `${(idx/data.length)*100}%`;
+        const o = document.getElementById('opts');
+        o.innerHTML = '';
+        d.o.forEach((txt, i) => {
+            const b = document.createElement('button');
+            b.className = 'btn';
+            b.innerText = txt;
+            b.onclick = () => {
+                if(lock) return;
+                lock = true;
+                if(i === d.a) { b.classList.add('correct'); score+=10; }
+                else { b.classList.add('wrong'); document.getElementById('card').classList.add('shake'); }
+                document.getElementById('score').innerText = `Poin: ${score}`;
+                setTimeout(() => { document.getElementById('card').classList.remove('shake'); idx++; lock=false; render(); }, 800);
+            };
+            o.appendChild(b);
+        });
+    }
 
-        function initQuiz() {
-            if (currentIdx >= quizData.length) {
-                showResults();
-                return;
-            }
+    function showRes() {
+        document.getElementById('game-view').classList.add('hidden');
+        document.getElementById('result-view').style.display = 'block';
+        document.getElementById('f-score').innerText = score;
+        document.getElementById('fill').style.width = '100%';
+    }
 
-            const currentData = quizData[currentIdx];
-            
-            // Update UI
-            qCounter.innerText = `Soal ${currentIdx + 1} / ${quizData.length}`;
-            scoreDisplay.innerText = `Poin: ${score}`;
-            situationText.innerText = currentData.s;
-            questionText.innerText = currentData.q;
-            progressBar.style.width = `${(currentIdx / quizData.length) * 100}%`;
-
-            // Render Options
-            optionsGrid.innerHTML = '';
-            currentData.o.forEach((opt, index) => {
-                const button = document.createElement('button');
-                button.className = 'option-btn';
-                button.innerText = `${index + 1}. ${opt}`;
-                button.onclick = () => handleAnswer(index, button);
-                optionsGrid.appendChild(button);
-            });
-            
-            isProcessing = false;
-        }
-
-        function handleAnswer(selectedIndex, button) {
-            if (isProcessing) return;
-            isProcessing = true;
-
-            const correctIndex = quizData[currentIdx].a;
-
-            if (selectedIndex === correctIndex) {
-                score += 10;
-                button.classList.add('correct');
-            } else {
-                button.classList.add('wrong');
-                mainCard.classList.add('animate-shake');
-                // Beri tanda pada jawaban yang benar
-                Array.from(optionsGrid.children)[correctIndex].classList.add('correct');
-                setTimeout(() => mainCard.classList.remove('animate-shake'), 400);
-            }
-
-            setTimeout(() => {
-                currentIdx++;
-                initQuiz();
-            }, 1000);
-        }
-
-        function showResults() {
-            quizView.classList.add('hidden');
-            resultView.classList.add('active');
-            progressBar.style.width = '100%';
-
-            const finalVal = document.getElementById('final-score-val');
-            const title = document.getElementById('result-title');
-            const desc = document.getElementById('result-desc');
-            const icon = document.getElementById('result-icon');
-
-            finalVal.innerText = score;
-
-            if (score >= 180) {
-                icon.innerText = '👑';
-                title.innerText = 'Luar Biasa!';
-                desc.innerText = 'Kamu sudah sangat siap untuk LOMBA KANA!';
-            } else if (score >= 120) {
-                icon.innerText = '⭐';
-                title.innerText = 'Lulus!';
-                desc.innerText = 'Pemahamanmu sudah cukup baik.';
-            } else {
-                icon.innerText = '📚';
-                title.innerText = 'Terus Belajar!';
-                desc.innerText = 'Coba ulangi lagi untuk memperkuat dasar-dasarmu.';
-            }
-        }
-
-        function resetQuiz() {
-            currentIdx = 0;
-            score = 0;
-            quizView.classList.remove('hidden');
-            resultView.classList.remove('active');
-            initQuiz();
-        }
-
-        // Jalankan kuis pertama kali
-        window.onload = initQuiz;
-    </script>
+    render();
+</script>
 </body>
 </html>
